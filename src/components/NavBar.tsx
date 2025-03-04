@@ -1,10 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { supabase } from "../utils/supabaseClient";
+
+interface Kid {
+  id: number;
+  name: string;
+}
 
 const NavBar: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [kids, setKids] = useState<Kid[]>([]);
+
+  useEffect(() => {
+    const fetchKids = async () => {
+      if (!user) return;
+
+      try {
+        // ✅ Step 1: Get parent ID
+        const { data: parentData, error: parentError } = await supabase
+          .from("soc_final_parents")
+          .select("id")
+          .eq("auth_id", user.id)
+          .single();
+
+        if (parentError) return;
+
+        const parentId = parentData.id;
+
+        // ✅ Step 2: Get only kids belonging to this parent
+        const { data: kidsData, error: kidsError } = await supabase
+          .from("soc_final_kids")
+          .select("id, name")
+          .eq("parent_id", parentId);
+
+        if (kidsError) return;
+
+        setKids(kidsData || []);
+      } catch (error) {
+        console.error("Error fetching kids:", error);
+      }
+    };
+
+    fetchKids();
+  }, [user]);
+
+  const handleKidSelection = (kidId: number) => {
+    navigate(`/kid/${kidId}`);
+  };
 
   const handleLogout = async () => {
     await logout(navigate);
@@ -26,9 +70,26 @@ const NavBar: React.FC = () => {
         <li>
           <Link to="/parent">Parent Profile</Link>
         </li>
-        <li>
-          <Link to="/kid-dashboard/1">Kid Dashboard</Link>
-        </li>
+
+        {/* ✅ Kid Profile Dropdown */}
+        {kids.length > 0 && (
+          <li>
+            <select
+              className="text-black p-2 rounded"
+              onChange={(e) => handleKidSelection(parseInt(e.target.value))}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select Child Profile
+              </option>
+              {kids.map((kid) => (
+                <option key={kid.id} value={kid.id}>
+                  {kid.name}
+                </option>
+              ))}
+            </select>
+          </li>
+        )}
       </ul>
 
       {/* Right: Auth Controls */}

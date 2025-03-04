@@ -9,22 +9,35 @@ interface TaskWithKid extends Task {
 
 const TaskView: React.FC = () => {
   const [tasks, setTasks] = useState<TaskWithKid[]>([]);
+  const [taskHistory, setTaskHistory] = useState<TaskWithKid[]>([]);
   const [kids, setKids] = useState<Kid[]>([]);
   const [taskName, setTaskName] = useState("");
   const [rewardValue, setRewardValue] = useState(1);
-  const [selectedKidId, setSelectedKidId] = useState<number | "all">("all"); // Default to "all"
+  const [selectedKidId, setSelectedKidId] = useState<number | "all">("all");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTasks = async () => {
       const { data, error } = await supabase
         .from("soc_final_tasks")
-        .select("*, soc_final_kids(name)");
+        .select("*, soc_final_kids(id, name)");
 
       if (error) {
         console.error(error);
       } else {
         setTasks(data);
+      }
+    };
+
+    const fetchTaskHistory = async () => {
+      const { data, error } = await supabase
+        .from("soc_final_task_history")
+        .select("*, soc_final_kids(id, name)");
+
+      if (error) {
+        console.error(error);
+      } else {
+        setTaskHistory(data);
       }
     };
 
@@ -35,7 +48,6 @@ const TaskView: React.FC = () => {
 
       const authUserId = userData.user.id;
 
-      // ✅ Step 1: Get Parent ID
       const { data: parentData, error: parentError } = await supabase
         .from("soc_final_parents")
         .select("id")
@@ -46,22 +58,24 @@ const TaskView: React.FC = () => {
 
       const parentId = parentData.id;
 
-      // ✅ Step 2: Get All Kids Belonging to This Parent
       const { data: kidsData, error: kidsError } = await supabase
         .from("soc_final_kids")
-        .select("id, parent_id, name, currency") // ✅ Include all required fields
+        .select("id, parent_id, name, currency")
         .eq("parent_id", parentId);
 
       if (kidsError) return;
 
-      setKids(kidsData || []);
+      setKids(kidsData as Kid[]);
     };
 
     fetchTasks();
+    fetchTaskHistory();
     fetchKids();
   }, []);
 
   const createTask = async () => {
+    if (!taskName.trim() || rewardValue <= 0) return;
+
     setLoading(true);
 
     try {
@@ -72,7 +86,6 @@ const TaskView: React.FC = () => {
 
       const authUserId = userData.user.id;
 
-      // ✅ Step 3: Get Parent ID
       const { data: parentData, error: parentError } = await supabase
         .from("soc_final_parents")
         .select("id")
@@ -83,8 +96,8 @@ const TaskView: React.FC = () => {
 
       const parentId = parentData.id;
 
-      let assignedKids = kids.map((kid) => kid.id); // Default to all kids
-      if (selectedKidId !== "all") assignedKids = [selectedKidId]; // If a specific kid is selected
+      let assignedKids = kids.map((kid) => kid.id);
+      if (selectedKidId !== "all") assignedKids = [selectedKidId];
 
       for (const kidId of assignedKids) {
         const { error } = await supabase.from("soc_final_tasks").insert([
@@ -109,12 +122,65 @@ const TaskView: React.FC = () => {
     setLoading(false);
   };
 
+  const completeTask = async (task: TaskWithKid) => {
+    setLoading(true);
+    try {
+      //  1: Fetch the child's current currency
+      const { data: kidData, error: kidError } = await supabase
+        .from("soc_final_kids")
+        .select("currency")
+        .eq("id", task.assigned_to)
+        .single();
+
+      if (kidError || !kidData)
+        throw new Error("Error fetching kid's current currency");
+
+      const newCurrency = kidData.currency + task.reward_value;
+
+      //  2: Move Task to History
+      const { error: historyError } = await supabase
+        .from("soc_final_task_history")
+        .insert([
+          {
+            name: task.name,
+            completed_by: task.assigned_to,
+            reward_value: task.reward_value,
+          },
+        ]);
+
+      if (historyError) throw new Error("Error moving task to history");
+
+      //  3: Update Kid's Currency with Correct Value
+      const { error: updateError } = await supabase
+        .from("soc_final_kids")
+        .update({ currency: newCurrency })
+        .eq("id", task.assigned_to);
+
+      if (updateError) throw new Error("Error updating currency");
+
+      //  4: Delete Task from `soc_final_tasks`
+      const { error: deleteError } = await supabase
+        .from("soc_final_tasks")
+        .delete()
+        .eq("id", task.id);
+
+      if (deleteError) throw new Error("Error deleting task");
+
+      //  5: Refresh Task List & Task History
+      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== task.id));
+      setTaskHistory((prevHistory) => [...prevHistory, task]);
+    } catch (err: unknown) {
+      console.error("Error:", err);
+    }
+    setLoading(false);
+  };
+
   return (
     <ProtectedRoute>
       <div className="p-6">
         <h1 className="text-2xl font-bold">Task View</h1>
 
-        {/* ✅ Task Creation Form */}
+        {/* ------------------------------- Task Creation Form------------------------------- */}
         <div className="bg-gray-100 p-4 rounded-md mb-4">
           <h2 className="text-xl font-semibold">Create Task</h2>
 
@@ -163,22 +229,43 @@ const TaskView: React.FC = () => {
           </button>
         </div>
 
-        {/* ✅ Task List */}
-        {tasks.length > 0 ? (
+        {/* ---------------------------- Task List ---------------------------------*/}
+        {tasks.length > 0 && (
           <div>
             <h2 className="text-xl font-semibold">Assigned Tasks</h2>
             {tasks.map((task) => (
               <div key={task.id} className="p-3 bg-gray-100 rounded-md mb-2">
                 <p>
                   <strong>{task.name}</strong> (Assigned to:{" "}
-                  {task.soc_final_kids ? task.soc_final_kids.name : "Unknown"})
+                  {task.soc_final_kids?.name || "Unknown"})
                 </p>
                 <p>Reward: {task.reward_value} coins</p>
+
+                <button
+                  className="bg-green-500 text-white px-4 py-2 rounded mt-2"
+                  onClick={() => completeTask(task)}
+                >
+                  {loading ? "Processing..." : "Complete Task"}
+                </button>
               </div>
             ))}
           </div>
-        ) : (
-          <p>No tasks assigned yet.</p>
+        )}
+
+        {/* ----------------------------- Task History Section-------------------------------- */}
+        {taskHistory.length > 0 && (
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold">Task History</h2>
+            {taskHistory.map((task) => (
+              <div key={task.id} className="p-3 bg-gray-200 rounded-md mb-2">
+                <p>
+                  <strong>{task.name}</strong> (Completed by:{" "}
+                  {task.soc_final_kids?.name || "Unknown"})
+                </p>
+                <p>Reward Earned: {task.reward_value} coins</p>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </ProtectedRoute>

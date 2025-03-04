@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { refreshUser } = useAuth(); // Get refreshUser from AuthContext
+  const { refreshUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,8 +23,8 @@ export default function Login() {
     if (error) {
       setError(error.message);
     } else {
-      await refreshUser(); // Refresh user state
-      navigate("/"); // Redirect after login
+      await refreshUser();
+      navigate("/");
     }
   };
 
