@@ -1,49 +1,80 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
-import { Kid } from "../types/database";
+import { Kid, Reward } from "../types/database";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
 const KidProfile: React.FC = () => {
   const { id } = useParams();
   const [kid, setKid] = useState<Kid | null>(null);
-  const [tasks, setTasks] = useState<{ name: string }[]>([]);
+  const [rewards, setRewards] = useState<Reward[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchKid = async () => {
+    const fetchKidAndRewards = async () => {
       if (!id) return;
 
       const kidId = parseInt(id, 10);
-
       if (isNaN(kidId)) return;
 
-      const { data, error } = await supabase
+      const { data: kidData, error: kidError } = await supabase
         .from("soc_final_kids")
-        .select("*")
+        .select("id, parent_id, name, currency")
         .eq("id", kidId)
         .single();
 
-      if (error) console.error("Supabase error:", error);
-      else setKid(data);
+      if (kidError) {
+        console.error("Error fetching kid:", kidError);
+        return;
+      }
+
+      setKid(kidData);
+
+      const parentId = kidData.parent_id;
+
+      const { data: rewardsData, error: rewardsError } = await supabase
+        .from("soc_final_rewards")
+        .select("*")
+        .eq("parent_id", parentId);
+
+      if (rewardsError) {
+        console.error("Error fetching rewards:", rewardsError);
+        return;
+      }
+
+      setRewards(rewardsData);
     };
 
-    const fetchTasks = async () => {
-      if (!id) return;
-
-      const kidId = parseInt(id, 10);
-
-      const { data, error } = await supabase
-        .from("soc_final_tasks")
-        .select("name")
-        .eq("assigned_to", kidId);
-
-      if (error) console.error("Error fetching tasks:", error);
-      else setTasks(data);
-    };
-
-    fetchKid();
-    fetchTasks();
+    fetchKidAndRewards();
   }, [id]);
+
+  const redeemReward = async (reward: Reward) => {
+    if (!kid || kid.currency < reward.cost) return;
+
+    setLoading(true);
+    try {
+      const { error: updateError } = await supabase
+        .from("soc_final_kids")
+        .update({ currency: kid.currency - reward.cost })
+        .eq("id", kid.id);
+
+      if (updateError) throw new Error("Error updating currency");
+
+      const { error: redeemError } = await supabase
+        .from("soc_final_redeemed_rewards")
+        .insert([
+          { kid_id: kid.id, reward_id: reward.id, parent_id: kid.parent_id },
+        ]);
+
+      if (redeemError) throw new Error("Error adding redeemed reward");
+
+      setKid({ ...kid, currency: kid.currency - reward.cost });
+      setRewards(rewards.filter((r) => r.id !== reward.id));
+    } catch (err) {
+      console.error("Error:", err);
+    }
+    setLoading(false);
+  };
 
   if (!kid) return <p>Loading...</p>;
 
@@ -55,15 +86,31 @@ const KidProfile: React.FC = () => {
           <strong>Coins:</strong> {kid.currency}
         </p>
 
-        <h2 className="text-xl font-bold mt-4">Today's Tasks</h2>
-        {tasks.length > 0 ? (
+        {/* ------------------ Reward Redemption Section --------------------*/}
+        <h2 className="text-xl font-bold mt-4">Redeem Rewards</h2>
+        {rewards.length > 0 ? (
           <ul>
-            {tasks.map((task, index) => (
-              <li key={index}>- {task.name}</li>
+            {rewards.map((reward) => (
+              <li key={reward.id} className="p-3 bg-gray-100 rounded-md mb-2">
+                <p>
+                  <strong>{reward.name}</strong> - {reward.cost} coins
+                </p>
+                <button
+                  className={`px-4 py-2 rounded ${
+                    kid.currency >= reward.cost
+                      ? "bg-blue-500 text-white hover:bg-blue-600"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                  onClick={() => redeemReward(reward)}
+                  disabled={kid.currency < reward.cost || loading}
+                >
+                  {loading ? "Processing..." : "Redeem"}
+                </button>
+              </li>
             ))}
           </ul>
         ) : (
-          <p>No tasks for today.</p>
+          <p>No rewards available.</p>
         )}
       </div>
     </ProtectedRoute>

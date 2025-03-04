@@ -20,7 +20,7 @@ const ParentProfile: React.FC = () => {
         .from("soc_final_parents")
         .select("*")
         .eq("email", userEmail)
-        .maybeSingle(); // ✅ Prevents 406 error if no row is found
+        .maybeSingle();
 
       if (error) {
         console.error(error);

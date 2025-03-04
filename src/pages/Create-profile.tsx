@@ -38,7 +38,7 @@ export default function CreateProfile() {
     setLoading(true);
 
     try {
-      // ✅ Step 1: Sign up user in Supabase Auth
+      // 1: Sign up user in Supabase Auth
       const { data, error } = await supabase.auth.signUp({ email, password });
 
       if (error) throw new Error(error.message);
@@ -47,7 +47,7 @@ export default function CreateProfile() {
       if (!authUserId)
         throw new Error("User creation failed. Please try again.");
 
-      // ✅ Step 2: Insert parent into "soc_final_parents"
+      // 2: Insert parent into "soc_final_parents"
       const { data: parentData, error: parentError } = await supabase
         .from("soc_final_parents")
         .insert([
@@ -69,7 +69,7 @@ export default function CreateProfile() {
 
       const parentId = parentData.id;
 
-      // ✅ Step 3: Insert kids into "soc_final_kids" (currency defaults to 0)
+      // 3: Insert kids into "soc_final_kids" (currency defaults to 0)
       const kidInserts = kids
         .filter((kid) => kid.name.trim() !== "")
         .map((kid) => ({
@@ -108,7 +108,7 @@ export default function CreateProfile() {
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        {/* Email & Password Fields */}
+        {/*------------------------------- Email & Password Fields ---------------------------------------*/}
         <input
           type="email"
           placeholder="Email"
@@ -134,7 +134,7 @@ export default function CreateProfile() {
           required
         />
 
-        {/* Parent Information */}
+        {/*--------------------- Parent Information ------------------------------------*/}
         <h3 className="text-lg font-bold mb-2">Parent Information</h3>
         <input
           type="text"
@@ -152,7 +152,7 @@ export default function CreateProfile() {
           onChange={(e) => setParent2Name(e.target.value)}
         />
 
-        {/* Kids Information (Displayed as "Children") */}
+        {/*---------------------------- Kids Information (Displayed as "Children")------------------------ */}
         <h3 className="text-lg font-bold mb-2">Children Information</h3>
         {kids.map((kid, index) => (
           <div key={index} className="mb-3">
