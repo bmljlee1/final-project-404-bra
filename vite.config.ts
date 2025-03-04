@@ -1,8 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), VitePWA({
+    registerType: 'autoUpdate',
+    devOptions: {
+      enabled: true
+    },
+    manifest: {
+      theme_color: "#ffffff" // Add your desired theme color here
+    }
+  })],
 });
