@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
+import { Slider } from "../components/ui/slider";
 
 export default function CreateProfile() {
   const navigate = useNavigate();
