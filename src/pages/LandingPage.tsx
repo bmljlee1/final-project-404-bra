@@ -112,7 +112,7 @@ const LandingPage = () => {
         zIndex="1000"
       >
         <img
-          src="../../public/happyhands.png"
+          src="/happyhands.png"
           style={{
             width: "100px",
             height: "80px",
@@ -214,7 +214,7 @@ const LandingPage = () => {
               </Stack>
             </Stack>
             <Image
-              src="../../public/dusty.png"
+              src="/dusty.png"
               height="400px"
               width="400px"
               marginRight="200px"
