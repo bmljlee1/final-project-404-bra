@@ -19,7 +19,7 @@ const RewardView: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [editingReward, setEditingReward] = useState<Reward | null>(null);
   const [editedName, setEditedName] = useState("");
-  const [editedCost, setEditedCost] = useState(1);
+  // const [editedCost, setEditedCost] = useState(1);
 
   useEffect(() => {
     const fetchRewards = async () => {
@@ -100,7 +100,7 @@ const RewardView: React.FC = () => {
 
   return (
     <ProtectedRoute>
-      <Box  p={4} rounded="md" mb={4} shadow="lg">
+      <Box p={4} rounded="md" mb={4} shadow="lg">
         <Heading
           mt={2}
           justifyContent="center"
@@ -117,12 +117,18 @@ const RewardView: React.FC = () => {
           Rewards
         </Heading>
 
-        <VStack gap={4} align="stretch" >
+        <VStack gap={4} align="stretch">
           {/* ------------------------ Reward Creation Form ---------------------*/}
-          <Box bg="#80cbc4" p={4} rounded="md" mb={4} display="flex" 
-            flexDirection="column" 
+          <Box
+            bg="#80cbc4"
+            p={4}
+            rounded="md"
+            mb={4}
+            display="flex"
+            flexDirection="column"
             alignItems="center"
-            width="100vw">
+            width="100vw"
+          >
             <Text fontSize="xl" fontWeight="semibold" mb={4} textAlign="center">
               Create Reward
             </Text>
@@ -186,7 +192,7 @@ const RewardView: React.FC = () => {
                 variant="outline"
               />
 
-              <Button
+              {/* <Button
                 onClick={editReward}
                 colorScheme="green"
                 width="full"
@@ -197,7 +203,7 @@ const RewardView: React.FC = () => {
                 ) : (
                   "Update Reward"
                 )}
-              </Button>
+              </Button> */}
 
               <Button
                 onClick={() => setEditingReward(null)}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Input, Text, Heading, Spinner } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
@@ -135,9 +136,13 @@ const TaskView: React.FC = () => {
 
           return {
             ...task,
-            soc_final_kids: task.soc_final_kids
-              ? { ...task.soc_final_kids }
-              : null, // ✅ Ensure object copy
+            soc_final_kids: {
+              id: (task.soc_final_kids as any).id,
+              name: (task.soc_final_kids as any).name,
+              parent_id: (task.soc_final_kids as any).parent_id,
+              completed: false, // or any default value
+              currency: 0, // or any default value
+            },
           };
         })
         .filter((task) => task.soc_final_kids !== null);

@@ -4,6 +4,7 @@ import QRCode from "react-qr-code";
 import { Box, Button, Text, Heading, VStack, Spinner } from "@chakra-ui/react";
 import { toast } from "react-toastify"; // Import react-toastify's toast function
 import "react-toastify/dist/ReactToastify.css"; // Import the CSS for the toast notifications
+import { PostgrestError } from "@supabase/supabase-js";
 
 interface Kid {
   id: number;
@@ -77,7 +78,7 @@ export default function Dashboard() {
             .eq("parent_id", parentId)
             .eq("approved", false)) as unknown as {
             data: RedemptionWithReward[];
-            error: string;
+            error: PostgrestError;
           };
 
         if (redemptionsError) throw new Error(redemptionsError.message);
