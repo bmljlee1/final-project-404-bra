@@ -21,15 +21,6 @@ Happy Hands is an interactive application designed to help parents encourage pos
 - **Monitoring**: Sentry
 - **Deployment**: Vercel
 
-## Team Members
-
-- Giuseppe Landolfi
-- Fergus Gildea
-- Joseph Kyriakides
-- Charlotte Bell
-- Jon Lee
-- Sami Azil.
-
 ## Getting Started
 
 ### Prerequisites
@@ -71,4 +62,6 @@ The application is still under development with the following components impleme
 ## Deployment
 
 The application can be deployed to Vercel or hosted locally according to your preferences.
+
+Deployed URL - https://final-project-404-bra.vercel.app/
 
