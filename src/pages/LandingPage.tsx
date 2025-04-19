@@ -97,11 +97,11 @@ const LandingPage = () => {
   ];
 
   return (
-    <Box bg="white">
+    <Box bg="#FFDDE2">
       {/* Header */}
       <Stack
         p={8}
-        backgroundColor={"#80CBC4"}
+        backgroundColor={"#56E39F"}
         display="flex"
         flexDirection="row"
         justifyContent="space-between"
@@ -122,35 +122,35 @@ const LandingPage = () => {
         />
         <Box display="flex" justifyContent="flex-end" gap={2}>
           <Button
-            backgroundColor={"purple"}
+            backgroundColor={"#FF6700"}
             onClick={() => navigate("/create-profile")}
-            fontFamily="poppins"
-            _hover={{ backgroundColor: "indigo" }}
+            fontFamily="Roboto"
+            _hover={{ backgroundColor: "#EFCA08" }}
             border="solid"
-            borderColor="indigo"
+            borderColor="#1B065E"
           >
             Sign Up
           </Button>
           <Button
-            backgroundColor={"purple"}
-            fontFamily="poppins"
-            _hover={{ backgroundColor: "indigo" }}
+            backgroundColor={"#FF6700"}
+            fontFamily="Roboto"
+            _hover={{ backgroundColor: "#EFCA08" }}
             onClick={scrolltoDownload}
           >
             Download
           </Button>
           <Button
-            backgroundColor={"purple"}
-            fontFamily="poppins"
-            _hover={{ backgroundColor: "indigo" }}
+            backgroundColor={"#FF6700"}
+            fontFamily="Roboto"
+            _hover={{ backgroundColor: "#EFCA08" }}
             onClick={scrollToFeatures}
           >
             Features
           </Button>
           <Button
-            backgroundColor={"purple"}
-            fontFamily="poppins"
-            _hover={{ backgroundColor: "indigo" }}
+            backgroundColor={"#FF6700"}
+            fontFamily="Roboto"
+            _hover={{ backgroundColor: "#EFCA08" }}
             onClick={scrollToTestimonials}
           >
             Testimonials
@@ -163,7 +163,7 @@ const LandingPage = () => {
           width="100vw"
           variant={"elevated"}
           key={"elevated"}
-          backgroundColor={"#B4EBE6"}
+          backgroundColor={"#56E39F"}
         >
           <Card.Body
             gap="2"
@@ -178,36 +178,33 @@ const LandingPage = () => {
               display="flex"
             >
               <Card.Description
-                color="purple"
+                color="#1B065E"
                 fontSize="50px"
                 textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                style={{
-                  WebkitTextStroke: "1px black",
-                }}
                 alignSelf="center"
                 textAlign="center"
-                fontFamily="poppins"
+                fontFamily="Roboto"
               >
                 The App to get Kids off Apps!
               </Card.Description>
               <Stack display="flex" flexDirection="row" justifyContent="center">
                 <Button
-                  backgroundColor={"purple"}
+                  backgroundColor={"#FF6700"}
                   onClick={() => navigate("/create-profile")}
-                  fontFamily="poppins"
-                  _hover={{ backgroundColor: "indigo" }}
+                  fontFamily="Roboto"
+                  _hover={{ backgroundColor: "#EFCA08" }}
                 >
                   Sign Up
                 </Button>
                 <Button
-                  backgroundColor={"#b4ebe6"}
-                  color="purple"
+                  backgroundColor={"#FFDDE2"}
+                  color="#FF6700"
                   onClick={() => navigate("/login")}
                   marginLeft="5px"
-                  fontFamily="poppins"
+                  fontFamily="Roboto"
                   border="solid"
-                  borderColor="purple"
-                  _hover={{ backgroundColor: "indigo" }}
+                  borderColor="#FF6700"
+                  _hover={{ backgroundColor: "#EFCA08" }}
                 >
                   Sign In
                 </Button>
@@ -316,7 +313,7 @@ const LandingPage = () => {
         >
           <Card.Body gap="2">
             <Card.Description
-              color="purple"
+              color="#1B065E"
               fontSize="50px"
               textAlign="center"
               textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
@@ -348,13 +345,10 @@ const LandingPage = () => {
                   alignItems="center"
                 >
                   <Card.Description
-                    color="purple"
+                    color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    style={{
-                      WebkitTextStroke: "1px black",
-                    }}
                     fontFamily="poppins"
                   >
                     Customisable
@@ -362,7 +356,7 @@ const LandingPage = () => {
 
                   <FaPenSquare
                     style={{
-                      color: "purple",
+                      color: "#1B065E",
                       fontSize: "3rem",
                       margin: "20px",
                     }}
@@ -398,20 +392,17 @@ const LandingPage = () => {
                   alignItems="center"
                 >
                   <Card.Description
-                    color="purple"
+                    color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    style={{
-                      WebkitTextStroke: "1px black",
-                    }}
                     fontFamily="poppins"
                   >
                     Interactive
                   </Card.Description>
                   <FaMousePointer
                     style={{
-                      color: "purple",
+                      color: "#1B065E",
                       fontSize: "3rem",
                       margin: "20px",
                     }}
@@ -447,13 +438,10 @@ const LandingPage = () => {
                   alignItems="center"
                 >
                   <Card.Description
-                    color="purple"
+                    color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    style={{
-                      WebkitTextStroke: "1px black",
-                    }}
                     fontFamily="poppins"
                   >
                     Easy to Use
@@ -461,7 +449,7 @@ const LandingPage = () => {
 
                   <FaRegSmile
                     style={{
-                      color: "purple",
+                      color: "#1B065E",
                       fontSize: "3rem",
                       margin: "20px",
                     }}
@@ -497,20 +485,17 @@ const LandingPage = () => {
                   alignItems="center"
                 >
                   <Card.Description
-                    color="purple"
+                    color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
                     textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    style={{
-                      WebkitTextStroke: "1px black",
-                    }}
                     fontFamily="poppins"
                   >
                     Fun Features
                   </Card.Description>
                   <FaRegStar
                     style={{
-                      color: "purple",
+                      color: "#1B065E",
                       fontSize: "3rem",
                       margin: "20px",
                     }}
