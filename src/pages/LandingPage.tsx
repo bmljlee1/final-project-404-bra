@@ -180,12 +180,11 @@ const LandingPage = () => {
               <Card.Description
                 color="#1B065E"
                 fontSize="50px"
-                textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
                 alignSelf="center"
                 textAlign="center"
-                fontFamily="Roboto"
+                fontFamily="Inter, sans-serif"
               >
-                The App to get Kids off Apps!
+                The app to get kids off apps!
               </Card.Description>
               <Stack display="flex" flexDirection="row" justifyContent="center">
                 <Button
@@ -238,10 +237,14 @@ const LandingPage = () => {
           height="400px"
         >
           <Card.Body gap="2" alignContent="center" justifyContent="center">
-            <Card.Title mb="2" alignSelf="center" fontFamily="poppins">
+            <Card.Title
+              mb="2"
+              alignSelf="center"
+              fontFamily="Inter, sans-serif"
+            >
               We are on the app store
             </Card.Title>
-            <Card.Description alignSelf="center" fontFamily="poppins">
+            <Card.Description alignSelf="center" fontFamily="Inter, sans-serif">
               <HStack paddingLeft="40px" marginBottom="5px">
                 <FaStar color="gold" size={24} />
                 <FaStar color="gold" size={24} />
@@ -264,7 +267,7 @@ const LandingPage = () => {
                 colorScheme="blackAlpha"
                 variant="solid"
                 size="lg"
-                fontFamily="poppins"
+                fontFamily="Inter, sans-serif"
               >
                 <FontAwesomeIcon icon={faApple} />
                 Download on the App Store
@@ -276,7 +279,7 @@ const LandingPage = () => {
                 colorScheme="blue"
                 variant="solid"
                 size="lg"
-                fontFamily="poppins"
+                fontFamily="Inter, sans-serif"
                 width="293px"
               >
                 <FontAwesomeIcon icon={faGooglePlay} />
@@ -287,7 +290,7 @@ const LandingPage = () => {
         </Card.Root>
         <Card.Root width="800px" variant={"elevated"} key={"elevated"}>
           <Card.Body gap="2" alignContent="center" justifyContent="center">
-            <Card.Description fontSize="20px" fontFamily="poppins">
+            <Card.Description fontSize="20px" fontFamily="Inter, sans-serif">
               Available for download from app stores, get ouit app for mobiles,
               desktops, tablets and more!
               <br />
@@ -316,13 +319,12 @@ const LandingPage = () => {
               color="#1B065E"
               fontSize="50px"
               textAlign="center"
-              textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
               paddingBottom="100px"
               paddingTop="40px"
               style={{
                 WebkitTextStroke: "1px black",
               }}
-              fontFamily="poppins"
+              fontFamily="Inter, sans-serif"
             >
               Why choose Happy Hands?
             </Card.Description>
@@ -348,8 +350,7 @@ const LandingPage = () => {
                     color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
-                    textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Customisable
                   </Card.Description>
@@ -365,7 +366,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Tailor tasks, rewards, and themes to suit your family's
                     needs.
@@ -395,8 +396,7 @@ const LandingPage = () => {
                     color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
-                    textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Interactive
                   </Card.Description>
@@ -411,7 +411,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Kids stay engaged with interactive progress tracking and
                     rewards.
@@ -441,8 +441,7 @@ const LandingPage = () => {
                     color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
-                    textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Easy to Use
                   </Card.Description>
@@ -458,7 +457,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     A simple, intuitive interface makes managing tasks
                     effortless.
@@ -488,8 +487,7 @@ const LandingPage = () => {
                     color="#1B065E"
                     fontSize="50px"
                     textAlign="center"
-                    textShadow="2px 2px 5px rgba(0, 0, 0, 0.5)"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Fun Features
                   </Card.Description>
@@ -504,7 +502,7 @@ const LandingPage = () => {
                     color="black"
                     fontSize="25px"
                     textAlign="center"
-                    fontFamily="poppins"
+                    fontFamily="Inter, sans-serif"
                   >
                     Unlock achievements, collect badges, and enjoy playful
                     animations!
@@ -598,14 +596,14 @@ const LandingPage = () => {
                     <Heading
                       fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
                       marginBottom="10px"
-                      fontFamily="poppins"
+                      fontFamily="Inter, sans-serif"
                     >
                       {card.title}
                     </Heading>
                     <Text
                       fontSize={{ base: "md", lg: "lg" }}
                       color="black"
-                      fontFamily="poppins"
+                      fontFamily="Inter, sans-serif"
                     >
                       {card.text}
                     </Text>
@@ -638,7 +636,10 @@ const LandingPage = () => {
           }}
         />
 
-        <Text font="poppins"> Built using React, Typescript by 404 BNF</Text>
+        <Text fontFamily="Inter, sans-serif">
+          {" "}
+          Built using React, Typescript by 404 BNF
+        </Text>
       </Stack>
     </Box>
   );
