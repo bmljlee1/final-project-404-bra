@@ -259,12 +259,40 @@ const TaskView: React.FC = () => {
         ])
         .select("*"); // ✅ Fetch inserted row for debugging
 
+      console.log("📤 Insert Query Result:", { historyData, historyError });
+
       if (historyError) {
         console.error("❌ Error moving task to history:", historyError);
-        return;
+        throw new Error("Failed to move task to history");
       }
 
       console.log("📜 Task added to history:", historyData);
+
+      // ✅ Update the child's currency
+      const { data: kidData, error: kidError } = await supabase
+        .from("soc_final_kids")
+        .select("currency")
+        .eq("id", task.assigned_to)
+        .single();
+
+      if (kidError || !kidData) {
+        console.error("❌ Error fetching kid's current currency:", kidError);
+        throw new Error("Failed to fetch kid's current currency");
+      }
+
+      const newCurrency = kidData.currency + task.reward_value;
+
+      const { error: currencyError } = await supabase
+        .from("soc_final_kids")
+        .update({ currency: newCurrency })
+        .eq("id", task.assigned_to);
+
+      if (currencyError) {
+        console.error("❌ Error updating kid's currency:", currencyError);
+        throw new Error("Failed to update kid's currency");
+      }
+
+      console.log("💰 Kid's currency updated successfully to:", newCurrency);
 
       // ✅ Delete from active tasks
       const { error: deleteError } = await supabase
