@@ -6,8 +6,6 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-// import { ReactFormState } from "react-dom/client";
-
 export default function Login() {
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
@@ -120,9 +118,7 @@ export default function Login() {
               width="full"
               size="lg"
               color="black"
-              // borderWidth="1px"
-              // borderColor="#B4EBE6"
-              shadow="md" // Adds shadow
+              shadow="md"
               disabled={loading}
               bg="white"
               justifyContent="center"

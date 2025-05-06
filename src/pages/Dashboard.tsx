@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import QRCode from "react-qr-code";
 import { Box, Button, Text, Heading, VStack, Spinner } from "@chakra-ui/react";
-import { toast } from "react-toastify"; // Import react-toastify's toast function
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for the toast notifications
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { PostgrestError } from "@supabase/supabase-js";
 
 interface Kid {
@@ -84,15 +84,15 @@ export default function Dashboard() {
         if (redemptionsError) throw new Error(redemptionsError.message);
 
         setPendingRedemptions(
-          redemptionsData.map((r) => ({
-            id: r.id,
-            kid_id: r.kid_id,
-            reward_name: r.soc_final_rewards?.name ?? "Unknown Reward",
-            kid_name: r.soc_final_kids
-              ? r.soc_final_kids.name
-              : `Kid ${r.kid_id}`,
-            redeemed_at: r.redeemed_at,
-            approved: r.approved,
+          redemptionsData.map((redemption) => ({
+            id: redemption.id,
+            kid_id: redemption.kid_id,
+            reward_name: redemption.soc_final_rewards?.name ?? "Unknown Reward",
+            kid_name: redemption.soc_final_kids
+              ? redemption.soc_final_kids.name
+              : `Kid ${redemption.kid_id}`,
+            redeemed_at: redemption.redeemed_at,
+            approved: redemption.approved,
           }))
         );
       } catch (err: unknown) {
@@ -119,9 +119,11 @@ export default function Dashboard() {
 
       if (error) throw new Error("Error approving redemption");
 
-      setPendingRedemptions((prev) =>
-        prev.filter((r) => r.id !== redemptionId)
+      const updatedRedemptions = pendingRedemptions.filter(
+        (redemption) => redemption.id !== redemptionId
       );
+
+      setPendingRedemptions(updatedRedemptions);
       toast.success("The reward redemption has been approved.");
     } catch (err) {
       console.error("Error:", err);
@@ -187,13 +189,13 @@ export default function Dashboard() {
                 {kid.name}
               </Heading>
               <Text alignSelf={"center"}>
-                Current Coins: <strong>{kid.currency}</strong>
+                Current Gems: <strong>{kid.currency}</strong>
               </Text>
 
               <Button
                 colorScheme="teal"
                 onClick={() => {
-                  setQrCodeKidId((prev) => (prev === kid.id ? null : kid.id)); // Toggle QR code visibility
+                  setQrCodeKidId((prev) => (prev === kid.id ? null : kid.id));
                 }}
                 mt={3}
                 bg="white"

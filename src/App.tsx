@@ -1,5 +1,3 @@
-// filepath: /home/bmljlee1/SOC/FinalProject/final-project-404-bra/src/App.tsx
-import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -19,7 +17,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import CreateProfile from "./pages/Create-profile";
 
-const Layout: React.FC = () => {
+const Layout = () => {
   const location = useLocation();
 
   const hideNavRoutes = ["/login", "/create-profile", "/"];
@@ -51,7 +49,7 @@ const Layout: React.FC = () => {
   );
 };
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <AuthProvider>
       <Router>

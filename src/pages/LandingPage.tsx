@@ -89,7 +89,7 @@ const LandingPage = () => {
         "https://media.istockphoto.com/id/1968410965/photo/portrait-of-a-happy-little-girl-having-breakfast-with-her-mother-and-father-at-home.jpg?s=2048x2048&w=is&k=20&c=VO3ZRirGTRn505xJL6LOKJerE8UYhoKIUeZGm_48QQA=",
     },
     {
-      title: "Emily Tomas",
+      title: "Emily Thomas",
       text: "Our weekend trips feel more rewarding because our kids earn them! They take ownership, and we all enjoy the experience together.",
       image:
         "https://media.istockphoto.com/id/1460965686/photo/seeing-your-daughter-happy-is-a-remarkable-feeling.jpg?s=2048x2048&w=is&k=20&c=wFhZctR4l_K9obCz16oXfcG3embCZa75Qb9qlv1KxQE=",
@@ -98,7 +98,6 @@ const LandingPage = () => {
 
   return (
     <Box bg="#FFDDE2">
-      {/* Header */}
       <Stack
         p={8}
         backgroundColor={"#56E39F"}
@@ -124,7 +123,7 @@ const LandingPage = () => {
           <Button
             backgroundColor={"#FF6700"}
             onClick={() => navigate("/create-profile")}
-            fontFamily="Roboto"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "#EFCA08" }}
             border="solid"
             borderColor="#1B065E"
@@ -133,7 +132,7 @@ const LandingPage = () => {
           </Button>
           <Button
             backgroundColor={"#FF6700"}
-            fontFamily="Roboto"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "#EFCA08" }}
             onClick={scrolltoDownload}
           >
@@ -141,7 +140,7 @@ const LandingPage = () => {
           </Button>
           <Button
             backgroundColor={"#FF6700"}
-            fontFamily="Roboto"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "#EFCA08" }}
             onClick={scrollToFeatures}
           >
@@ -149,7 +148,7 @@ const LandingPage = () => {
           </Button>
           <Button
             backgroundColor={"#FF6700"}
-            fontFamily="Roboto"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "#EFCA08" }}
             onClick={scrollToTestimonials}
           >
@@ -157,7 +156,7 @@ const LandingPage = () => {
           </Button>
         </Box>
       </Stack>
-      {/* Title Card */}
+
       <Stack gap="4" direction="row" wrap="wrap" width="100vw">
         <Card.Root
           width="100vw"
@@ -184,13 +183,13 @@ const LandingPage = () => {
                 textAlign="center"
                 fontFamily="Inter, sans-serif"
               >
-                The app to get kids off apps!
+                The App To Get Your Kids Off Apps!
               </Card.Description>
               <Stack display="flex" flexDirection="row" justifyContent="center">
                 <Button
                   backgroundColor={"#FF6700"}
                   onClick={() => navigate("/create-profile")}
-                  fontFamily="Roboto"
+                  fontFamily="Inter, sans-serif"
                   _hover={{ backgroundColor: "#EFCA08" }}
                 >
                   Sign Up
@@ -200,7 +199,7 @@ const LandingPage = () => {
                   color="#FF6700"
                   onClick={() => navigate("/login")}
                   marginLeft="5px"
-                  fontFamily="Roboto"
+                  fontFamily="Inter, sans-serif"
                   border="solid"
                   borderColor="#FF6700"
                   _hover={{ backgroundColor: "#EFCA08" }}
@@ -219,7 +218,6 @@ const LandingPage = () => {
           <Card.Footer justifyContent="flex-end"></Card.Footer>
         </Card.Root>
       </Stack>
-      {/* Download */}
 
       <Stack
         gap="40"
@@ -300,7 +298,7 @@ const LandingPage = () => {
           </Card.Body>
         </Card.Root>
       </Stack>
-      {/* About Us */}
+
       <Stack
         gap="4"
         direction="row"
@@ -326,7 +324,7 @@ const LandingPage = () => {
               }}
               fontFamily="Inter, sans-serif"
             >
-              Why choose Happy Hands?
+              Why Choose Happy Hands?
             </Card.Description>
             <Stack flexDirection="row" ref={featuresRef}>
               <Card.Root
@@ -527,7 +525,6 @@ const LandingPage = () => {
           marginTop="100px"
           ref={testimonialsRef}
         >
-          {/* CSS files for react-slick */}
           <link
             rel="stylesheet"
             type="text/css"
@@ -543,28 +540,38 @@ const LandingPage = () => {
             aria-label="left-arrow"
             variant="ghost"
             position="absolute"
+            color="white"
             left={side}
             top={top}
             transform={"translate(0%, -50%)"}
             zIndex={2}
             onClick={() => slider?.slickPrev()}
+            _hover={{
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              color: "gray.300",
+            }}
           >
             <BiLeftArrowAlt size="40px" />
           </IconButton>
-          {/* Right Icon */}
+
           <IconButton
             aria-label="right-arrow"
             variant="ghost"
             position="absolute"
+            color="white"
             right={side}
             top={top}
             transform={"translate(0%, -50%)"}
             zIndex={2}
             onClick={() => slider?.slickNext()}
+            _hover={{
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              color: "gray.300",
+            }}
           >
             <BiRightArrowAlt size="40px" />
           </IconButton>
-          {/* Slider */}
+
           <Slider {...settings} ref={(slider) => setSlider(slider)}>
             {cards.map((card, index) => (
               <Box
@@ -614,7 +621,7 @@ const LandingPage = () => {
           </Slider>
         </Box>
       </Stack>
-      {/* Footer */}
+
       <Stack
         p={8}
         backgroundColor={"#80CBC4"}
@@ -627,7 +634,7 @@ const LandingPage = () => {
         bottom="0"
       >
         <img
-          src="../../public/happyhands.png"
+          src="../../happyhands.png"
           style={{
             width: "50px",
             height: "40px",

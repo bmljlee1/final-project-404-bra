@@ -12,14 +12,13 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-const RewardView: React.FC = () => {
+const RewardView = () => {
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [rewardName, setRewardName] = useState("");
   const [rewardCost, setRewardCost] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [editingReward, setEditingReward] = useState<Reward | null>(null);
   const [editedName, setEditedName] = useState("");
-  // const [editedCost, setEditedCost] = useState(1);
 
   useEffect(() => {
     const fetchRewards = async () => {
@@ -88,7 +87,6 @@ const RewardView: React.FC = () => {
       if (fetchError) throw new Error("Error fetching rewards");
       setRewards(updatedRewards);
 
-      // Reset fields after successful insertion
       setRewardName("");
       setRewardCost("");
     } catch (err) {
@@ -191,19 +189,6 @@ const RewardView: React.FC = () => {
                 mb={4}
                 variant="outline"
               />
-
-              {/* <Button
-                onClick={editReward}
-                colorScheme="green"
-                width="full"
-                disabled={loading}
-              >
-                {loading ? (
-                  <Spinner size="sm" color="white" />
-                ) : (
-                  "Update Reward"
-                )}
-              </Button> */}
 
               <Button
                 onClick={() => setEditingReward(null)}

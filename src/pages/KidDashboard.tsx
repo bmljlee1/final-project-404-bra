@@ -4,7 +4,7 @@ import { supabase } from "../utils/supabaseClient";
 import { Kid, Task } from "../types/database";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
-const KidDashboard: React.FC = () => {
+const KidDashboard = () => {
   const { kidId } = useParams();
   const [kid, setKid] = useState<Kid | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -54,7 +54,7 @@ const KidDashboard: React.FC = () => {
               <p>
                 <strong>{task.name}</strong>
               </p>
-              <p>Reward: {task.reward_value} coins</p>
+              <p>Reward: {task.reward_value} Gems</p>
             </div>
           ))
         )}

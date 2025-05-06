@@ -5,7 +5,7 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 import { Box, Heading, Text, Image, Stack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const ParentProfile: React.FC = () => {
+const ParentProfile = () => {
   const [parent, setParent] = useState<Parent | null>(null);
   const [kids, setKids] = useState<Kid[]>([]);
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ const ParentProfile: React.FC = () => {
 
       const userEmail = user.user.email;
 
-      // Fetch parent details
       const { data: parentData, error: parentError } = await supabase
         .from("soc_final_parents")
         .select("*")
@@ -34,7 +33,6 @@ const ParentProfile: React.FC = () => {
 
       setParent(parentData);
 
-      // Fetch kids associated with this parent
       if (parentData) {
         const { data: kidsData, error: kidsError } = await supabase
           .from("soc_final_kids")
@@ -177,7 +175,7 @@ const ParentProfile: React.FC = () => {
           w={{ base: "90%", md: "30%" }}
           h="90vh"
           mt={6}
-          ml={{ base: 0, md: 6 }} // No left margin on mobile, margin on larger screens
+          ml={{ base: 0, md: 6 }}
           bg="#80CBC4"
           p={6}
           borderRadius="md"
@@ -196,10 +194,7 @@ const ParentProfile: React.FC = () => {
           >
             Actions
           </Heading>
-          <Stack
-            align="center"
-            bg="#80CBC4" // Match the parent box's background color
-          >
+          <Stack align="center" bg="#80CBC4">
             <Button
               colorScheme="teal"
               variant="solid"

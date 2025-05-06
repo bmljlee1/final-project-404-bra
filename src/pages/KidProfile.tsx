@@ -15,7 +15,7 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 
-const KidProfile: React.FC = () => {
+const KidProfile = () => {
   const { id } = useParams();
   const [kid, setKid] = useState<Kid | null>(null);
   const [tasks, setTasks] = useState<
@@ -35,7 +35,6 @@ const KidProfile: React.FC = () => {
 
       console.log("checking kid ID:", kidId);
 
-      // ✅ Fetch kid details
       const { data: kidData, error: kidError } = await supabase
         .from("soc_final_kids")
         .select("id, parent_id, name, currency")
@@ -47,9 +46,10 @@ const KidProfile: React.FC = () => {
         return;
       }
 
-      console.log("🎯 Kid Data Fetched:", kidData);
+      console.log("Kid Data Fetched:", kidData);
 
       setKid(kidData);
+
       const parentId = kidData.parent_id;
 
       const { data: rewardsData, error: rewardsError } = await supabase
@@ -62,12 +62,13 @@ const KidProfile: React.FC = () => {
         return;
       }
 
-      console.log("🏆 Rewards Fetched:", rewardsData);
+      console.log("Rewards Fetched:", rewardsData);
 
       setRewards(rewardsData);
 
-      console.log("📡 Fetching tasks for kid ID:", kidId);
-      const parsedKidId = Number(id);
+      console.log("Fetching tasks for kid ID:", kidId);
+
+      const parsedKidId = Number(id); //For some reason needed to parse it again to avoid error? Recheck this.
 
       const { data: tasksData, error: tasksError } = await supabase
         .from("soc_final_tasks")
@@ -91,23 +92,23 @@ const KidProfile: React.FC = () => {
     fetchKidData();
   }, [id]);
   const markTaskComplete = async (taskId: number) => {
-    console.log("✅ Marking task as complete:", taskId); // Log Task ID
+    console.log("Marking task as complete:", taskId);
     try {
       const { data, error } = await supabase
         .from("soc_final_tasks")
         .update({ completed: true })
         .eq("id", taskId)
-        .select(); // Fetch updated row for confirmation
+        .select();
 
       if (error) {
-        console.error("❌ Error marking task as complete:", error);
+        console.error("Error marking task as complete:", error);
         return;
       }
 
-      console.log("🆕 Updated Task Data from Supabase:", data); // Check updated task
+      console.log("Updated Task Data from Supabase:", data);
 
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
+      setTasks((currentTasks) =>
+        currentTasks.map((task) =>
           task.id === taskId ? { ...task, completed: true } : task
         )
       );
@@ -137,7 +138,7 @@ const KidProfile: React.FC = () => {
       if (redeemError) throw new Error("Error adding redeemed reward");
 
       setKid({ ...kid, currency: kid.currency - reward.cost });
-      setRewards(rewards.filter((r) => r.id !== reward.id));
+      setRewards(rewards.filter((reward) => reward.id !== reward.id));
 
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 5000);
@@ -166,7 +167,7 @@ const KidProfile: React.FC = () => {
         color="purple"
         px={{ base: 4, md: 8 }}
       >
-        {/* Confetti Component */}
+        {/*--------------------------------------- Confetti Component ---------------------------------*/}
         {showConfetti && <Confetti width={width} height={height} />}
         <Box
           display="flex"
@@ -180,7 +181,7 @@ const KidProfile: React.FC = () => {
           borderRadius="xl"
         >
           <Stack p={6} align="center" w="full" bg="white">
-            {/* Kid's Profile Header */}
+            {/* -----------------------------------------Kid's Profile Header-------------------------------------------- */}
             <Heading
               as="h2"
               size="2xl"
@@ -212,7 +213,7 @@ const KidProfile: React.FC = () => {
               </AvatarGroup>
             </Heading>
 
-            {/* Coins Info */}
+            {/*-------------------------------------- Coins Info ------------------------------------*/}
             <Text
               textAlign="center"
               bg="white"
@@ -273,7 +274,7 @@ const KidProfile: React.FC = () => {
                       disabled={task.completed}
                     >
                       {task.completed
-                        ? "Task Completed ✅"
+                        ? "Task Completed"
                         : "I Have Completed This Task"}
                     </Button>
                   </Box>

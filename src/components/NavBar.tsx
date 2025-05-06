@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaTimes } from "react-icons/fa"; // Added FaTimes for close icon
+import { FaBars, FaTimes } from "react-icons/fa";
 import { Button, Box, Text, HStack, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../utils/supabaseClient";
 
-const NavBar: React.FC = () => {
+const NavBar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [parentName, setParentName] = useState<string>("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Explicit state for menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -46,7 +46,7 @@ const NavBar: React.FC = () => {
 
   const handleNavigation = (path: string) => {
     navigate(path);
-    setIsMenuOpen(false); // Close menu after navigation
+    setIsMenuOpen(false);
   };
 
   return (
@@ -63,12 +63,12 @@ const NavBar: React.FC = () => {
         top="0"
         zIndex="1000"
       >
-        {/* Left: Navigation Links */}
+        {/*------------------------- Left: Navigation Links ----------------------*/}
         <Box display={{ base: "none", md: "flex" }} gap={2}>
           <Button
             backgroundColor={"purple"}
             onClick={() => navigate("/Dashboard")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
           >
@@ -77,7 +77,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => navigate("/Tasks")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
           >
@@ -86,7 +86,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => navigate("/Rewards")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
           >
@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => navigate("/Parent")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
           >
@@ -103,7 +103,7 @@ const NavBar: React.FC = () => {
           </Button>
         </Box>
 
-        {/* Mobile Hamburger Menu */}
+        {/*---------------------- Mobile Hamburger Menu --------------------------*/}
         <Box display={{ base: "flex", md: "none" }} alignItems="center">
           <Button
             onClick={toggleMenu}
@@ -111,22 +111,22 @@ const NavBar: React.FC = () => {
             color="purple"
             aria-label="Toggle Menu"
             _hover={{
-              color: "indigo", // Change this to your desired hover color
-              bg: "#B4EBE6", // Keeps background transparent on hover
+              color: "indigo",
+              bg: "#B4EBE6",
             }}
           >
             {isMenuOpen ? <FaTimes size={30} /> : <FaBars size={30} />}
           </Button>
         </Box>
 
-        {/* Right: Auth Controls */}
+        {/*------------------------- Right: Auth Controls ---------------------------*/}
         <Box display={{ base: "none", md: "flex" }} gap={2}>
           {!user ? (
             <>
               <Button
                 backgroundColor={"purple"}
                 onClick={() => navigate("/Login")}
-                fontFamily="poppins"
+                fontFamily="Inter, sans-serif"
                 _hover={{ backgroundColor: "indigo" }}
                 gap={2}
               >
@@ -135,7 +135,7 @@ const NavBar: React.FC = () => {
               <Button
                 backgroundColor={"purple"}
                 onClick={() => navigate("/Sign Up")}
-                fontFamily="poppins"
+                fontFamily="Inter, sans-serif"
                 _hover={{ backgroundColor: "indigo" }}
               >
                 Sign Up
@@ -147,7 +147,7 @@ const NavBar: React.FC = () => {
               <Button
                 backgroundColor={"purple"}
                 onClick={handleLogout}
-                fontFamily="poppins"
+                fontFamily="Inter, sans-serif"
                 _hover={{ backgroundColor: "indigo" }}
                 color="white"
               >
@@ -158,7 +158,7 @@ const NavBar: React.FC = () => {
         </Box>
       </HStack>
 
-      {/* Mobile Menu Dropdown */}
+      {/*-------------------------- Mobile Menu Dropdown -------------------------*/}
       {isMenuOpen && (
         <VStack
           display={{ base: "flex", md: "none" }}
@@ -175,7 +175,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => handleNavigation("/Dashboard")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
             width="100%"
@@ -185,7 +185,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => handleNavigation("/Tasks")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
             width="100%"
@@ -195,7 +195,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => handleNavigation("/Rewards")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
             width="100%"
@@ -205,7 +205,7 @@ const NavBar: React.FC = () => {
           <Button
             backgroundColor={"purple"}
             onClick={() => handleNavigation("/Parent")}
-            fontFamily="poppins"
+            fontFamily="Inter, sans-serif"
             _hover={{ backgroundColor: "indigo" }}
             color="white"
             width="100%"
@@ -219,7 +219,7 @@ const NavBar: React.FC = () => {
                 handleLogout();
                 setIsMenuOpen(false);
               }}
-              fontFamily="poppins"
+              fontFamily="Inter, sans-serif"
               _hover={{ backgroundColor: "indigo" }}
               color="white"
               width="100%"
